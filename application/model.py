@@ -103,11 +103,12 @@ def model_train(data_dir,test=False):
 
     ## train a different model for each data sets
     for country,df in ts_data.items():
-        
+             
         if test and country not in ['all','united_kingdom']:
             continue
         
-        _model_train(df,country,test=test)
+        if df.shape[0] > 0:
+            _model_train(df,country,test=test)
     
 def model_load(prefix='sl',data_dir=None,training=True):
     """

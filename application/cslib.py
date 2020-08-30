@@ -73,7 +73,7 @@ def convert_to_ts(df_orig, country=None):
 
     if country:
         if country not in np.unique(df_orig['country'].values):
-            raise Excpetion("country not found")
+            raise Exception("country not found")
     
         mask = df_orig['country'] == country
         df = df_orig[mask]
@@ -101,6 +101,7 @@ def convert_to_ts(df_orig, country=None):
                             'total_views':views,
                             'year_month':year_month,
                             'revenue':revenue})
+                            
     return(df_time)
 
 
@@ -141,8 +142,10 @@ def fetch_ts(data_dir, clean=False):
     dfs['all'] = convert_to_ts(df)
     for country in top_ten_countries:
         country_id = re.sub("\s+","_",country.lower())
-        file_name = os.path.join(data_dir,"ts-"+ country_id + ".csv")
-        dfs[country_id] = convert_to_ts(df,country=country)
+        ##file_name = os.path.join(data_dir,"ts-"+ country_id + ".csv")
+        df_country = convert_to_ts(df,country=country)
+        if df_country.shape[0] > 0:
+            dfs[country_id] = df_country
 
     ## save the data as csvs    
     for key, item in dfs.items():
@@ -203,7 +206,7 @@ def engineer_features(df,training=True):
     dates = dates[mask]
     X.reset_index(drop=True, inplace=True)
 
-    if training == True:
+    if training == True and X.shape[0] >= 30:
         ## remove the last 30 days (because the target is not reliable)
         mask = np.arange(X.shape[0]) < np.arange(X.shape[0])[-30]
         X = X[mask]
