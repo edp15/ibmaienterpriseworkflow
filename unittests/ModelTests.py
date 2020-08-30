@@ -7,7 +7,7 @@ model tests
 import unittest
 
 ## import model specific functions and variables
-from model.model import *
+from application.model import *
 
 class ModelTest(unittest.TestCase):
     """

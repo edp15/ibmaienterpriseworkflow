@@ -10,7 +10,7 @@ from ast import literal_eval
 import pandas as pd
 
 ## import model specific functions and variables
-from model.logger import update_train_log, update_predict_log
+from application.logger import update_train_log, update_predict_log
 
 class LoggerTest(unittest.TestCase):
     """
